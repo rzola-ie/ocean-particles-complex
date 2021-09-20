@@ -74,7 +74,7 @@ export default class Gradient {
         { label: 'uColorOffset', min: -1.0, max: 1.0, step: 0.001 }
       )
 
-      this.debug.addInput(
+      this.debugFolder.addInput(
         this.material.uniforms.uColorMultiplier,
         'value',
         { label: 'uColorMultiplier', min: 1.0, max: 10.0, step: 0.001 }
