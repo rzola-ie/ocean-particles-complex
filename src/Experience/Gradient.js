@@ -59,6 +59,7 @@ export default class Gradient {
     this.material = new THREE.ShaderMaterial({
       vertexShader: vertex,
       fragmentShader: fragment,
+      depthTest: false,
       uniforms: {
         uColorTop: { value: this.colors.top.instance },
         uColorBottom: { value: this.colors.bottom.instance },

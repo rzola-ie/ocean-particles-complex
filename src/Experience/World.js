@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import Gradient from './Gradient.js'
 import Water from './Water.js'
+import Portal from './Portal.js'
 
 export default class World {
     constructor(_options) {
@@ -13,6 +14,7 @@ export default class World {
             if (_group.name === 'base') {
                 this.setGradient()
                 this.setWater()
+                this.setPortal()
             }
         })
     }
@@ -25,10 +27,19 @@ export default class World {
         this.water = new Water()
     }
 
+    setPortal() {
+        this.portal = new Portal()
+    }
+
     resize() {
     }
 
     update() {
+        if (this.water)
+            this.water.update()
+
+        if (this.portal)
+            this.portal.update()
     }
 
     destroy() {

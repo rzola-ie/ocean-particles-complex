@@ -2,10 +2,8 @@ import * as THREE from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 
-export default class Renderer
-{
-    constructor(_options = {})
-    {
+export default class Renderer {
+    constructor(_options = {}) {
         this.experience = window.experience
         this.config = this.experience.config
         this.debug = this.experience.debug
@@ -14,15 +12,14 @@ export default class Renderer
         this.sizes = this.experience.sizes
         this.scene = this.experience.scene
         this.camera = this.experience.camera
-        
+
         this.usePostprocess = false
 
         this.setInstance()
         this.setPostProcess()
     }
 
-    setInstance()
-    {
+    setInstance() {
         this.clearColor = '#010101'
 
         // Renderer
@@ -43,7 +40,7 @@ export default class Renderer
 
         // this.instance.physicallyCorrectLights = true
         // this.instance.gammaOutPut = true
-        // this.instance.outputEncoding = THREE.sRGBEncoding
+        this.instance.outputEncoding = THREE.sRGBEncoding
         // this.instance.shadowMap.type = THREE.PCFSoftShadowMap
         // this.instance.shadowMap.enabled = false
         // this.instance.toneMapping = THREE.ReinhardToneMapping
@@ -53,14 +50,12 @@ export default class Renderer
         this.context = this.instance.getContext()
 
         // Add stats panel
-        if(this.stats)
-        {
+        if (this.stats) {
             this.stats.setRenderPanel(this.context)
         }
     }
 
-    setPostProcess()
-    {
+    setPostProcess() {
         this.postProcess = {}
 
         /**
@@ -91,8 +86,7 @@ export default class Renderer
         this.postProcess.composer.addPass(this.postProcess.renderPass)
     }
 
-    resize()
-    {
+    resize() {
         // Instance
         this.instance.setSize(this.config.width, this.config.height)
         this.instance.setPixelRatio(this.config.pixelRatio)
@@ -102,30 +96,24 @@ export default class Renderer
         this.postProcess.composer.setPixelRatio(this.config.pixelRatio)
     }
 
-    update()
-    {
-        if(this.stats)
-        {
+    update() {
+        if (this.stats) {
             this.stats.beforeRender()
         }
 
-        if(this.usePostprocess)
-        {
+        if (this.usePostprocess) {
             this.postProcess.composer.render()
         }
-        else
-        {
+        else {
             this.instance.render(this.scene, this.camera.instance)
         }
 
-        if(this.stats)
-        {
+        if (this.stats) {
             this.stats.afterRender()
         }
     }
 
-    destroy()
-    {
+    destroy() {
         this.instance.renderLists.dispose()
         this.instance.dispose()
         this.renderTarget.dispose()
