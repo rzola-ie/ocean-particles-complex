@@ -1,6 +1,9 @@
 import * as THREE from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass'
+import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js'
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
 
 export default class Renderer {
     constructor(_options = {}) {
@@ -13,10 +16,12 @@ export default class Renderer {
         this.scene = this.experience.scene
         this.camera = this.experience.camera
 
-        this.usePostprocess = false
+        this.usePostprocess = true
 
         this.setInstance()
         this.setPostProcess()
+        this.setRGBShiftPass()
+        this.setBloomPass()
     }
 
     setInstance() {
@@ -84,6 +89,21 @@ export default class Renderer {
         this.postProcess.composer.setPixelRatio(this.config.pixelRatio)
 
         this.postProcess.composer.addPass(this.postProcess.renderPass)
+    }
+
+    setRGBShiftPass() {
+        this.rgbShiftPass = new ShaderPass(RGBShiftShader)
+        this.rgbShiftPass.enabled = false
+        this.postProcess.composer.addPass(this.rgbShiftPass)
+    }
+
+    setBloomPass() {
+        this.bloomPass = new UnrealBloomPass()
+        this.bloomPass.enabled = true
+        this.bloomPass.strength = 0.2
+        this.bloomPass.radius = 4
+        // bloomPass.threshold = 0.2
+        this.postProcess.composer.addPass(this.bloomPass)
     }
 
     resize() {
